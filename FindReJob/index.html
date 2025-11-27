@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FindReJob_V5 by Daiice</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      padding: 40px;
+    }
+    
+    h3 {
+      color: #667eea;
+      font-size: 28px;
+      margin-bottom: 30px;
+      text-align: center;
+      font-weight: 600;
+    }
+    
+    .form-group {
+      margin-bottom: 25px;
+    }
+    
+    label {
+      display: block;
+      color: #333;
+      font-weight: 500;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: 'Courier New', monospace;
+      transition: all 0.3s ease;
+      resize: vertical;
+    }
+    
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    .file-input-wrapper {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    
+    input[type="file"] {
+      flex: 1;
+      padding: 10px;
+      border: 2px dashed #e0e0e0;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 200px;
+    }
+    
+    input[type="file"]:hover {
+      border-color: #667eea;
+      background: #f8f9ff;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    #btnSearch {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    #btnSearch:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    #btnDownload {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+    }
+    
+    #btnDownload:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+    }
+    
+    #btnDownload:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    #filename {
+      background: #f8f9ff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      color: #667eea;
+      font-weight: 600;
+      margin-top: 15px;
+      border-left: 4px solid #667eea;
+    }
+    
+    #msg {
+      background: #e8f5e9;
+      padding: 12px 20px;
+      border-radius: 10px;
+      color: #2e7d32;
+      font-weight: 500;
+      margin-top: 15px;
+      border-left: 4px solid #4caf50;
+    }
+    
+    .table-wrapper {
+      overflow-x: auto;
+      margin-top: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      background: white;
+    }
+    
+    th, td {
+      padding: 15px;
+      text-align: left;
+      font-size: 14px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    th {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    tr:hover {
+      background: #f8f9ff;
+    }
+    
+    mark.main {
+      background: #ffeb3b;
+      color: #d32f2f;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    
+    mark.secondary {
+      background: #e3f2fd;
+      color: #1976d2;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    
+    .notfound {
+      background: #ffebee;
+      padding: 15px 20px;
+      border-radius: 10px;
+      color: #c62828;
+      margin-top: 20px;
+      border-left: 4px solid #f44336;
+      line-height: 1.8;
+    }
+    
+    .notfound b {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+      
+      h3 {
+        font-size: 22px;
+      }
+      
+      .button-group {
+        flex-direction: column;
+      }
+      
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3>🔍 FindReJob_V5 by Daiice</h3>
+
+    <div class="form-group">
+      <label>📋 วาง Order IDs (คั่นบรรทัดใหม่):</label>
+      <textarea id="orderList" placeholder="ตัวอย่าง: 2382509230006571&#10;2382509230006437"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>📁 อัพโหลดไฟล์ .txt (log):</label>
+      <div class="file-input-wrapper">
+        <input type="file" id="fileInput" accept=".txt">
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button id="btnSearch">🔎 ค้นหา</button>
+      <button id="btnDownload" disabled>💾 ดาวน์โหลด CSV</button>
+    </div>
+    
+    <div id="filename"></div>
+    <div id="msg"></div>
+
+    <div class="table-wrapper">
+      <table id="resultTable" style="display:none">
+        <thead>
+          <tr>
+            <th>Date/Time</th>
+            <th>Confirmation note</th>
+            <th>AMC</th>
+            <th>Action</th>
+            <th>Fund</th>
+            <th>Order ID</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    
+    <div id="notfoundList"></div>
+  </div>
+
+  <script>
+    function escapeRegExp(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+    function markText(text, keyword, cls){
+      if(!keyword) return text;
+      try {
+        const re = new RegExp(escapeRegExp(keyword), 'g');
+        return text.replace(re, `<mark class="${cls}">${keyword}</mark>`);
+      } catch(e) { return text; }
+    }
+
+    document.getElementById('btnSearch').addEventListener('click', ()=>{
+      const orderText = document.getElementById('orderList').value.trim();
+      const file = document.getElementById('fileInput').files[0];
+      const msg = document.getElementById('msg');
+      const filenameDiv = document.getElementById('filename');
+      const notfoundDiv = document.getElementById('notfoundList');
+      msg.textContent = '';
+      notfoundDiv.innerHTML = '';
+
+      if(!orderText){ alert('กรุณาใส่ Order IDs'); return; }
+      if(!file){ alert('กรุณาอัพโหลดไฟล์ .txt'); return; }
+
+      filenameDiv.textContent = "📂 ค้นหาจากไฟล์: " + file.name;
+
+      const orders = orderText.split(/\s+/).filter(Boolean);
+      const reader = new FileReader();
+      reader.onload = function(e){
+        const text = e.target.result;
+        const lines = text.split(/\r?\n/);
+        const tbody = document.querySelector('#resultTable tbody');
+        tbody.innerHTML = '';
+        const rowsForCsv = [];
+
+        let foundCount = 0;
+        const notFoundOrders = [];
+
+        orders.forEach(order => {
+          let foundThisOrder = false;
+
+          lines.forEach(line => {
+            if(!line.includes(order)) return;
+            foundThisOrder = true;
+
+            const colsRaw = line.split('|');
+            const cols = colsRaw.map(c => (c||'').trim());
+
+            let orderIdx = cols.findIndex(c => c && (c === order || c.includes(order)));
+            if(orderIdx === -1){
+              orderIdx = cols.findIndex(c => c && c.indexOf(order) >= 0);
+            }
+
+            const dt = cols[1] || '';
+            const txId = cols[2] || '';
+            const company = cols[3] || '';
+            const action = cols[6] || '';
+            const fund = cols[7] || '';
+            const orderId = (orderIdx !== -1 ? cols[orderIdx] : order);
+            const status = (orderIdx !== -1 && cols.length > orderIdx+1) ? cols[orderIdx+1] : '';
+			
+			// Skip if Action is SWO
+            if(action === 'SWO') return;
+
+            let companyDisplay = company ? markText(company, company, 'secondary') : '';
+            let statusDisplay = status ? markText(status, status, 'secondary') : '';
+            let orderDisplay = orderId ? markText(orderId, order, 'main') : '';
+
+            if(!company && cols[4]) companyDisplay = markText(cols[4], cols[4], 'secondary');
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td>${dt}</td>
+              <td>${txId}</td>
+              <td>${companyDisplay}</td>
+              <td>${action}</td>
+              <td>${fund}</td>
+              <td>${orderDisplay}</td>
+              <td>${statusDisplay}</td>
+            `;
+            tbody.appendChild(tr);
+
+            rowsForCsv.push({
+              datetime: dt, transaction: txId, company, action, fund, order: orderId, status
+            });
+            foundCount++;
+          });
+
+          if(!foundThisOrder){
+            notFoundOrders.push(order);
+          }
+        });
+
+        if(foundCount === 0){
+          msg.textContent = '❌ ไม่พบ Order IDs ที่ระบุในไฟล์';
+          msg.style.background = '#ffebee';
+          msg.style.color = '#c62828';
+          msg.style.borderLeft = '4px solid #f44336';
+          document.getElementById('resultTable').style.display = 'none';
+          document.getElementById('btnDownload').disabled = true;
+        } else {
+          msg.textContent = `✅ พบ ${foundCount} รายการ (แสดงเฉพาะฟิลด์สำคัญ)`;
+          msg.style.background = '#e8f5e9';
+          msg.style.color = '#2e7d32';
+          msg.style.borderLeft = '4px solid #4caf50';
+          document.getElementById('resultTable').style.display = '';
+          document.getElementById('btnDownload').disabled = false;
+          window._lastCsvRows = rowsForCsv;
+        }
+
+        if(notFoundOrders.length > 0){
+          notfoundDiv.innerHTML = "<div class='notfound'><b>⚠️ ไม่พบ Order IDs:</b>" + notFoundOrders.map(id => "• " + id).join("<br>") + "</div>";
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    document.getElementById('btnDownload').addEventListener('click', ()=>{
+      const rows = window._lastCsvRows || [];
+      if(!rows.length){ alert('ไม่มีข้อมูลให้ดาวน์โหลด'); return; }
+      const header = ['DateTime','Conf','Company','Action','Fund','OrderID','Status'];
+      const csv = [header.join(',')].concat(rows.map(r => {
+        return [r.datetime, r.transaction, r.company, r.action, r.fund, r.order, r.status]
+          .map(x => `"${(x||'').toString().replace(/"/g,'""')}"`).join(',');
+      })).join('\r\n');
+
+      const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'search_results.csv'; document.body.appendChild(a); a.click();
+      setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 2000);
+    });
+  </script>
+</body>
+</html>
