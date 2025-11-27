@@ -46,6 +46,12 @@
       margin-bottom: 8px;
       font-size: 14px;
     }
+	
+	.powerby {
+      color: #999999;
+      font-size: 9px;
+	  text-align: right;
+    }
     
     textarea {
       width: 100%;
@@ -102,11 +108,13 @@
       cursor: pointer;
       transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+	  margin: auto;
     }
     
     #btnSearch {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
+	  width: 49%;
     }
     
     #btnSearch:hover {
@@ -117,6 +125,7 @@
     #btnDownload {
       background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
       color: white;
+	  width: 49%;
     }
     
     #btnDownload:hover:not(:disabled) {
@@ -256,8 +265,9 @@
     
     <div id="filename"></div>
     <div id="msg"></div>
-
+	
     <div class="table-wrapper">
+	<label class="powerby">⭐ Developed by Dai Kittipanvoragul.</label>
       <table id="resultTable" style="display:none">
         <thead>
           <tr>
